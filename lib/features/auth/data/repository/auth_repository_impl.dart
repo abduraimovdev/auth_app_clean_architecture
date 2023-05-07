@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:ui_one/features/auth/data/data_sources/auth_local_data_storage.dart';
 import 'package:ui_one/features/auth/data/models/user_converter.dart';
 import 'package:ui_one/features/auth/domain/repasitory/auth_repository.dart';
@@ -21,34 +19,32 @@ class AuthRepositoryImple implements AuthRepository {
   Map<String, Object> signIn(String email, String password) {
     return dataSource.signIn(email, password);
   }
-  
+
   @override
-  deleteAccount() {
-    // TODO: implement deleteAccount
-    throw UnimplementedError();
+  Map<String, Object> deleteAccount(String email) {
+    return dataSource.deleteAccount(email);
   }
-  
+
   @override
   editProfile() {
     // TODO: implement editProfile
     throw UnimplementedError();
   }
-  
+
   @override
   forgotPassword() {
     // TODO: implement forgotPassword
     throw UnimplementedError();
   }
-  
-  @override
-  logOut() {
-    // TODO: implement logOut
-    throw UnimplementedError();
-  }
-  
+
   @override
   viewProfile() {
     // TODO: implement viewProfile
     throw UnimplementedError();
+  }
+
+  @override
+  Map<String, Map<String, Object?>> viewAllData() {
+    return dataSource.viewAllData();
   }
 }

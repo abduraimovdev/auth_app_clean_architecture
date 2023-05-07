@@ -1,4 +1,3 @@
-
 import '../../domain/entities/user.dart';
 import '../../domain/repasitory/auth_repository.dart';
 
@@ -14,7 +13,6 @@ class AuthController {
   Map<String, String> registration(
     String name,
     String email,
-    String birthDate,
     String password,
   ) {
     Map<String, String> result = {};
@@ -28,31 +26,19 @@ class AuthController {
       return result;
     }
 
-    if (!email.contains(
-      RegExp(r'^([a-zA-Z\d._%+-]+)@([a-zA-Z\d.-]+\.[a-zA-Z]{2,})$'),
-    )) {
+    if (email.isEmpty) {
       result["message"] = "Wrong Email";
       result["next"] = "not";
       return result;
     }
 
-    if (!birthDate.contains(
-      RegExp(r'^[0-9]{2}\.[0-9]{2}\.[0-9]{4}$'),
-    )) {
-      result["message"] = "Wrong Date";
-      result["next"] = "not";
-      return result;
-    }
-
-    if (!password.contains(
-      RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,20}$'),
-    )) {
+    if (password.isEmpty) {
       result["message"] = "Wrong Password";
       result["next"] = "not";
       return result;
     }
 
-    final user = User("00", name, email, birthDate, password);
+    final user = User("20", name, email, password);
     final response = authRepository.signUp(user);
     result["message"] = response["message"] as String;
     result["next"] = (response["success"] as bool) ? "next" : "not";
@@ -65,8 +51,6 @@ class AuthController {
   ) {
     Map<String, String> result = {};
 
-
-
     if (!email.contains(
       RegExp(r'^([a-zA-Z\d._%+-]+)@([a-zA-Z\d.-]+\.[a-zA-Z]{2,})$'),
     )) {
@@ -75,11 +59,8 @@ class AuthController {
       return result;
     }
 
-
-    if (!password.contains(
-      RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,20}$'),
-    )) {
-      result["message"] = "Wrong Password";
+    if (password.isEmpty) {
+      result["message"] = "Wrong Password !!";
       result["next"] = "not";
       return result;
     }
@@ -88,5 +69,12 @@ class AuthController {
     result["message"] = response["message"] as String;
     result["next"] = (response["success"] as bool) ? "next" : "not";
     return result;
+  }
+
+  Map<String, Object> deleteAccount(String email) {
+    return authRepository.deleteAccount(email);
+  }
+  Map<String, Map<String, Object?>> viewAllData() {
+    return authRepository.viewAllData();
   }
 }

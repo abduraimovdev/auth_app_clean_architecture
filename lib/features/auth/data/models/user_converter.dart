@@ -7,10 +7,9 @@ class UserConverter {
 
   User fromJson(Map<String, Object> data) {
     return User(
-      "00",
+      "10",
       data["name"] as String,
       data["email"] as String,
-      data["birthDate"] as String,
       data["password"] as String,
     );
   }
@@ -19,7 +18,6 @@ class UserConverter {
         "id": user.id,
         "name": user.name,
         "email": user.email,
-        "birthDate": user.birthDate,
         "password": user.password,
       };
 }

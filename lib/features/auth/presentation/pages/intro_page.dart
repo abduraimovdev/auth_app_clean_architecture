@@ -64,7 +64,7 @@ class _IntroPageState extends State<IntroPage> {
               children: [
                 MyButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, SignInPage.id);
+                    Navigator.pushNamed(context, SignUpPage.id);
                   },
                   text: "Sign up with email",
                 ),
@@ -90,7 +90,7 @@ class _IntroPageState extends State<IntroPage> {
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 27 ),
                 RichText(
                   text: TextSpan(
                     text: "Sign in",
@@ -102,7 +102,7 @@ class _IntroPageState extends State<IntroPage> {
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
                         print("salom");
-                        Navigator.pushNamed(context, SignUpPage.id);
+                        Navigator.pushNamed(context, SignInPage.id);
                       },
                   ),
                 ),

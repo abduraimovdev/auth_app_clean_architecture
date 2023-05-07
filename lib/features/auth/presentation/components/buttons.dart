@@ -29,7 +29,7 @@ class MyButton extends StatelessWidget {
               height: 30,
             )
           else
-            SizedBox(
+            const SizedBox(
               width: 30,
             ),
           const SizedBox(width: 10),

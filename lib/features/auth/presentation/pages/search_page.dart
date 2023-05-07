@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../components/item_widget.dart';
 
 class SearchScreen extends StatefulWidget {
+  static const String id = "search_page";
   const SearchScreen({Key? key}) : super(key: key);
 
   @override

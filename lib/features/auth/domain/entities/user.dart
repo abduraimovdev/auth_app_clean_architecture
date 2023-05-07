@@ -2,14 +2,13 @@ class User {
   String id;
   String name;
   String email;
-  String birthDate;
   String password;
 
-  User(this.id, this.name, this.email, this.birthDate, this.password);
+  User(this.id, this.name, this.email,  this.password);
 
   @override
   String toString() {
-    return 'User{name: $name, email: $email, birthDate: $birthDate, password: $password}';
+    return 'User{name: $name, email: $email, password: $password}';
   }
 
   @override
@@ -20,7 +19,6 @@ class User {
               id == other.id &&
               name == other.name &&
               email == other.email &&
-              birthDate == other.birthDate &&
               password == other.password;
 
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ui_one/features/auth/presentation/components/buttons.dart';
 import 'package:ui_one/features/auth/presentation/validator/auth_validator.dart';
+import 'package:ui_one/service._locator.dart';
 
 class SignUpPage extends StatefulWidget {
   static const String id = "sign_up_page";
@@ -22,6 +23,7 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -60,6 +62,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   children: [
                     // Name Input -------------------------------------
                     TextFormField(
+                      controller: nameController,
                       validator: AuthValidator.isNameValid,
                       decoration: const InputDecoration(
                         hintText: "user name",
@@ -69,6 +72,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     // Email Input -------------------------------------
                     const SizedBox(height: 40),
                     TextFormField(
+                      controller: emailController,
                       validator: AuthValidator.isNameValid,
                       decoration: const InputDecoration(
                         hintText: "email addresss",
@@ -78,6 +82,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     // Password Input -------------------------------------
                     const SizedBox(height: 40),
                     TextFormField(
+                      controller: passwordController,
                       obscureText: passwordSee,
                       validator: AuthValidator.isPasswordValid,
                       decoration: InputDecoration(
@@ -99,6 +104,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     // Retry Password Input -------------------------------------
                     const SizedBox(height: 40),
                     TextFormField(
+                      controller: passwordRetryController,
                       obscureText: passwordSee,
                       validator: AuthValidator.isPasswordValid,
                       decoration: InputDecoration(
@@ -135,15 +141,17 @@ class _SignUpPageState extends State<SignUpPage> {
   // when the button is pressed
   void signUpButton() {
     if (_signUpGlobalKey.currentState!.validate()) {
-      if (passwordController.text.trim() !=
-          passwordRetryController.text.trim()) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Iltimos Qayta yozish parolini Tugrilang !"),
-          ),
-        );
-      }
-      print("Data is True");
+      final message = authController.registration(
+        nameController.text.trim(),
+        emailController.text.trim(),
+        passwordController.text.trim(),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message["message"]!),
+        ),
+      );
+      print(message);
     }
   }
 

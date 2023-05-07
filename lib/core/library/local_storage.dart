@@ -9,6 +9,8 @@ class LocalStoage {
     if (_database.containsKey(key)) {
       return false;
     }
+    _database.addAll({key: value});
+
     return true;
   }
 
@@ -27,5 +29,9 @@ class LocalStoage {
 
   String? deleteData({required String key}) {
     return _database.remove(key);
+  }
+
+  Map<String, String> readAllData() {
+    return _database;
   }
 }

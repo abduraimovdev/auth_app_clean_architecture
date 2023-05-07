@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:ui_one/features/auth/presentation/pages/admin_page.dart';
+import 'package:ui_one/features/auth/presentation/pages/app_widget.dart';
+import 'package:ui_one/service._locator.dart';
 
 import '../components/buttons.dart';
 
 class SignInPage extends StatefulWidget {
-  static const String id = "sign_in_page"; 
+  static const String id = "sign_in_page";
 
   const SignInPage({super.key});
 
@@ -12,6 +15,9 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+  final _signInGlobalKey = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   bool passwordSee = true;
 
   @override
@@ -59,51 +65,56 @@ class _SignInPageState extends State<SignInPage> {
                 ),
               ],
             ),
-            Column(
-              children: [
-                TextFormField(
-                  validator: (value) {
-                    if (value!.isNotEmpty) {
-                      return null;
-                    } else {
-                      return "Name in not valid";
-                    }
-                  },
-                  decoration: const InputDecoration(hintText: "user name"),
-                ),
-                const SizedBox(height: 30),
-                TextFormField(
-                  obscureText: passwordSee,
-                  validator: (value) {
-                    if (value != null && value.length >= 8) {
-                      return null;
-                    } else {
-                      return "Name in not valid";
-                    }
-                  },
-                  decoration: InputDecoration(
-                    hintText: "password",
-                    suffixIcon: GestureDetector(
-                      onTap: () {
-                        passwordSee = !passwordSee;
-                        setState(() {});
-                      },
-                      child: Icon(
-                        passwordSee
-                            ? Icons.visibility_off_outlined
-                            : Icons.visibility_outlined,
+            Form(
+              key: _signInGlobalKey,
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: emailController,
+                    validator: (value) {
+                      if (value!.isNotEmpty) {
+                        return null;
+                      } else {
+                        return "Name in not valid";
+                      }
+                    },
+                    decoration: const InputDecoration(hintText: "user name"),
+                  ),
+                  const SizedBox(height: 30),
+                  TextFormField(
+                    controller: passwordController,
+                    obscureText: passwordSee,
+                    validator: (value) {
+                      if (value != null && value.length >= 8) {
+                        return null;
+                      } else {
+                        return "Name in not valid";
+                      }
+                    },
+                    decoration: InputDecoration(
+                      hintText: "password",
+                      suffixIcon: GestureDetector(
+                        onTap: () {
+                          passwordSee = !passwordSee;
+                          setState(() {});
+                        },
+                        child: Icon(
+                          passwordSee
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             const SizedBox(height: 100),
             Column(
-              children: const [
-                MyButtonTwo(text: "Log in"),
-                SizedBox(height: 30),
-                Text(
+              children: [
+                MyButtonTwo(text: "Log in", onPressed: signIn),
+                const SizedBox(height: 30),
+                const Text(
                   "Forgot Password",
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
@@ -117,5 +128,32 @@ class _SignInPageState extends State<SignInPage> {
         ),
       ),
     );
+  }
+
+  void signIn() {
+    if (_signInGlobalKey.currentState!.validate()) {
+      final message = authController.login(
+        emailController.text.trim(),
+        passwordController.text.trim(),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('${message["message"]}'),
+        ),
+      );
+      if (message["next"] == "next") {
+        AppWidget.isLogin = true;
+        AppWidget.loggedUser["email"] = emailController.text.trim();
+        AppWidget.loggedUser["password"] = passwordController.text.trim();
+        Navigator.pushNamed(context, AdminPage.id);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 }
