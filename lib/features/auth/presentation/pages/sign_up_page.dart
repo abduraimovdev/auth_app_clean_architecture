@@ -73,7 +73,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     const SizedBox(height: 40),
                     TextFormField(
                       controller: emailController,
-                      validator: AuthValidator.isNameValid,
+                      validator: AuthValidator.isEmailValid,
                       decoration: const InputDecoration(
                         hintText: "email addresss",
                       ),
@@ -107,19 +107,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       controller: passwordRetryController,
                       obscureText: passwordSee,
                       validator: AuthValidator.isPasswordValid,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: "password",
-                        suffixIcon: GestureDetector(
-                          onTap: () {
-                            passwordSee = !passwordSee;
-                            setState(() {});
-                          },
-                          child: Icon(
-                            passwordSee
-                                ? Icons.visibility_off_outlined
-                                : Icons.visibility_outlined,
-                          ),
-                        ),
                       ),
                     ),
                     const SizedBox(height: 120),
@@ -148,10 +137,16 @@ class _SignUpPageState extends State<SignUpPage> {
       );
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(message["message"]!),
+          content: Text(message["message"] as String),
+          margin:
+              EdgeInsets.only(bottom: MediaQuery.of(context).size.height * .9),
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 5),
+          shape: const StadiumBorder(),
+          dismissDirection: DismissDirection.horizontal,
+          showCloseIcon: true,
         ),
       );
-      print(message);
     }
   }
 

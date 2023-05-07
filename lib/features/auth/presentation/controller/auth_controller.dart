@@ -1,3 +1,5 @@
+import 'package:ui_one/features/auth/presentation/validator/auth_validator.dart';
+
 import '../../domain/entities/user.dart';
 import '../../domain/repasitory/auth_repository.dart';
 
@@ -17,22 +19,19 @@ class AuthController {
   ) {
     Map<String, String> result = {};
 
-    if (!name.isNotEmpty &&
-        name.startsWith(
-          RegExp(r"^[A-Z].{3}$"),
-        )) {
+    if (AuthValidator.isNameValid(name) != null) {
       result["message"] = "Wrong Name";
       result["next"] = "not";
       return result;
     }
 
-    if (email.isEmpty) {
+    if (AuthValidator.isEmailValid(email) != null) {
       result["message"] = "Wrong Email";
       result["next"] = "not";
       return result;
     }
 
-    if (password.isEmpty) {
+    if (AuthValidator.isPasswordValid(password) != null) {
       result["message"] = "Wrong Password";
       result["next"] = "not";
       return result;
@@ -51,15 +50,13 @@ class AuthController {
   ) {
     Map<String, String> result = {};
 
-    if (!email.contains(
-      RegExp(r'^([a-zA-Z\d._%+-]+)@([a-zA-Z\d.-]+\.[a-zA-Z]{2,})$'),
-    )) {
+    if (AuthValidator.isEmailValid(email) != null) {
       result["message"] = "Wrong Email";
       result["next"] = "not";
       return result;
     }
 
-    if (password.isEmpty) {
+    if (AuthValidator.isPasswordValid(password) != null) {
       result["message"] = "Wrong Password !!";
       result["next"] = "not";
       return result;

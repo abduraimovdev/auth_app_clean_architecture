@@ -138,7 +138,14 @@ class _SignInPageState extends State<SignInPage> {
       );
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('${message["message"]}'),
+          content: Text(message["message"] as String),
+          margin:
+              EdgeInsets.only(bottom: MediaQuery.of(context).size.height * .9),
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 5),
+          shape: const StadiumBorder(),
+          dismissDirection: DismissDirection.horizontal,
+          showCloseIcon: true,
         ),
       );
       if (message["next"] == "next") {
