@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ui_one/features/auth/presentation/pages/admin_page.dart';
 import 'package:ui_one/features/auth/presentation/pages/app_widget.dart';
+import 'package:ui_one/features/auth/presentation/validator/auth_validator.dart';
 import 'package:ui_one/service._locator.dart';
 
 import '../components/buttons.dart';
@@ -71,26 +72,15 @@ class _SignInPageState extends State<SignInPage> {
                 children: [
                   TextFormField(
                     controller: emailController,
-                    validator: (value) {
-                      if (value!.isNotEmpty) {
-                        return null;
-                      } else {
-                        return "Name in not valid";
-                      }
-                    },
-                    decoration: const InputDecoration(hintText: "user name"),
+                    validator: AuthValidator.isEmailValid,
+                    decoration:
+                        const InputDecoration(hintText: "email address"),
                   ),
                   const SizedBox(height: 30),
                   TextFormField(
                     controller: passwordController,
                     obscureText: passwordSee,
-                    validator: (value) {
-                      if (value != null && value.length >= 8) {
-                        return null;
-                      } else {
-                        return "Name in not valid";
-                      }
-                    },
+                    validator: AuthValidator.isPasswordValid,
                     decoration: InputDecoration(
                       hintText: "password",
                       suffixIcon: GestureDetector(
